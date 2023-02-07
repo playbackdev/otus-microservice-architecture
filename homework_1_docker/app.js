@@ -6,6 +6,7 @@ const port = process.env.NODE_API_PORT || 4000
 app.use(express.json())
 
 app.use('/', require('./routes/index.js'))
+app.use('/otusapp', require('./routes/otusapp.js'))
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
