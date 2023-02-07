@@ -47,7 +47,7 @@ kind: Ingress
 metadata:
   name: nodejs-simple-service
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
     - host: arch.homework
@@ -59,7 +59,15 @@ spec:
               service:
                 name: nodejs-simple-service
                 port:
-                  port: 80
+                  number: 80
+                  name: http
+          - path: /otusapp/{studentname}(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: nodejs-simple-service
+                port:
+                  number: 80
                   name: http
 ...
 
