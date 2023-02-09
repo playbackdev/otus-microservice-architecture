@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-simple-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodejs-simple-service
+  template:
+    metadata:
+      labels:
+        app: nodejs-simple-service
+    spec:
+      containers:
+        - name: nodejs-simple-service
+          image: playbackdev/nodejs-simple-service
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
