@@ -1,0 +1,20 @@
+# Build stage
+FROM node:18-alpine as build
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY package*.json .env ./
+RUN npm install && npm cache clean --force
+COPY . .
+
+# Production stage
+FROM node:18-alpine
+
+COPY --from=build /usr/src/app /usr/src/app
+
+WORKDIR /usr/src/app
+
+EXPOSE ${NODE_API_PORT}
+
+CMD ["npm", "run", "prod"]
