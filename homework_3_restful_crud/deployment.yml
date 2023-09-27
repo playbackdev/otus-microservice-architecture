@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-crud-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodejs-crud-service
+  template:
+    metadata:
+      labels:
+        app: nodejs-crud-service
+    spec:
+      containers:
+        - name: nodejs-crud-service
+          image: playbackdev/nodejs-crud-service
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
