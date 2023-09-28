@@ -1,9 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nodejs-crud-service
+  name: crud-service-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   defaultBackend:
@@ -15,7 +15,7 @@ spec:
     - host: arch.homework
       http:
         paths:
-          - path: /otusapp/german(/|$)(.*)
+          - path: /
             pathType: Prefix
             backend:
               service:
