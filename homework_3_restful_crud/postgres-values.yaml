@@ -1,5 +1,5 @@
-global:
-  postgresql:
+# global:
+#   postgresql:
     ## @param global.postgresql.auth.postgresPassword Password for the "postgres" admin user (overrides `auth.postgresPassword`)
     ## @param global.postgresql.auth.username Name for a custom user to create (overrides `auth.username`)
     ## @param global.postgresql.auth.password Password for the custom user to create (overrides `auth.password`)
@@ -9,13 +9,67 @@ global:
     ## @param global.postgresql.auth.secretKeys.userPasswordKey Name of key in existing secret to use for PostgreSQL credentials (overrides `auth.secretKeys.userPasswordKey`). Only used when `global.postgresql.auth.existingSecret` is set.
     ## @param global.postgresql.auth.secretKeys.replicationPasswordKey Name of key in existing secret to use for PostgreSQL credentials (overrides `auth.secretKeys.replicationPasswordKey`). Only used when `global.postgresql.auth.existingSecret` is set.
     ##
-    auth:
-      postgresPassword: "123456"
-      username: "german"
-      password: ""
-      database: "otus"
-      existingSecret: "postgresql-secret"
-      secretKeys:
-        adminPasswordKey: "db_pass"
-        userPasswordKey: "db_pass"
-        replicationPasswordKey: "db_pass"
+    # auth:
+    #   postgresPassword: "12345678"
+    #   username: "german"
+    #   password: "12345678"
+    #   database: "otus"
+    #   existingSecret: "postgresql-secret"
+    #   secretKeys:
+    #     adminPasswordKey: "db_pass"
+    #     userPasswordKey: "db_pass"
+    #     replicationPasswordKey: "db_pass"
+image:
+  registry: docker.io
+  repository: bitnami/postgresql
+  tag: 13.12.0-debian-11-r48
+  debug: true
+## Authentication parameters
+## ref: https://github.com/bitnami/containers/tree/main/bitnami/postgresql#setting-the-root-password-on-first-run
+## ref: https://github.com/bitnami/containers/tree/main/bitnami/postgresql#creating-a-database-on-first-run
+## ref: https://github.com/bitnami/containers/tree/main/bitnami/postgresql#creating-a-database-user-on-first-run
+##
+auth:
+  ## @param auth.enablePostgresUser Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user
+  ##
+  enablePostgresUser: true
+  ## @param auth.postgresPassword Password for the "postgres" admin user. Ignored if `auth.existingSecret` is provided
+  ##
+  postgresPassword: ""
+  ## @param auth.username Name for a custom user to create
+  ##
+  username: german
+  ## @param auth.password Password for the custom user to create. Ignored if `auth.existingSecret` is provided
+  ##
+  password: ""
+  ## @param auth.database Name for a custom database to create
+  ##
+  database: "otus"
+  ## @param auth.replicationUsername Name of the replication user
+  ##
+  #replicationUsername: repl_user
+  ## @param auth.replicationPassword Password for the replication user. Ignored if `auth.existingSecret` is provided
+  ##
+  #replicationPassword: ""
+  ## @param auth.existingSecret Name of existing secret to use for PostgreSQL credentials. `auth.postgresPassword`, `auth.password`, and `auth.replicationPassword` will be ignored and picked up from this secret. The secret might also contains the key `ldap-password` if LDAP is enabled. `ldap.bind_password` will be ignored and picked from this secret in this case.
+  ##
+  existingSecret: "postgresql-secret"
+  ## @param auth.secretKeys.adminPasswordKey Name of key in existing secret to use for PostgreSQL credentials. Only used when `auth.existingSecret` is set.
+  ## @param auth.secretKeys.userPasswordKey Name of key in existing secret to use for PostgreSQL credentials. Only used when `auth.existingSecret` is set.
+  ## @param auth.secretKeys.replicationPasswordKey Name of key in existing secret to use for PostgreSQL credentials. Only used when `auth.existingSecret` is set.
+  ##
+  secretKeys:
+    adminPasswordKey: db_pass
+    userPasswordKey: db_pass
+    replicationPasswordKey: db_pass
+  ## @param auth.usePasswordFiles Mount credentials as a files instead of using an environment variable
+  ##
+  usePasswordFiles: false
+
+primary:
+  persistence:
+    size: 2Gi
+
+readReplicas:
+  persistence:
+    size: 2Gi

@@ -1,2 +1,5 @@
 #!/bin/bash
-helm install postgres oci://registry-1.docker.io/bitnamicharts/postgresql -f postgres-values.yaml
+
+helm repo update
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install postgres bitnami/postgresql --version 12.10.0 -f postgres-values.yaml
