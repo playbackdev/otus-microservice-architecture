@@ -1,0 +1,76 @@
+{
+	"info": {
+		"_postman_id": "c10cdc0f-25c1-46f7-801c-c4cec516c40e",
+		"name": "OTUS_homework_3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "11206995"
+	},
+	"item": [
+		{
+			"name": "CREATE user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"userId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"petr3\",\n    \"first_name\": \"petr\",\n    \"last_name\": \"petrov\",\n    \"email\": \"petrovpetr@mail.ru\",\n    \"phone\": \"+7-777-666-45-56\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://arch.homework/user"
+			},
+			"response": []
+		},
+		{
+			"name": "GET user by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://arch.homework/user/{{userId}}"
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE user by id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"vasya125\",\n    \"first_name\": \"vasya\",\n    \"last_name\": \"ivanov\",\n    \"email\": \"test@mail.ru\",\n    \"phone\": \"+7-999-123-45-56\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://arch.homework/user/{{userId}}"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE user by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://arch.homework/user/{{userId}}"
+			},
+			"response": []
+		}
+	]
+}
